@@ -1,6 +1,9 @@
 import albumentations as A
 import random
 import cv2
+from albumentations import (
+   RandomRotate90, IAAAdditiveGaussianNoise, GaussNoise, Compose, OneOf
+)
 
 vg = cv2.imread("assets/vg.jpeg")
 
@@ -87,7 +90,8 @@ transform = A.Compose([
     A.ShiftScaleRotate(),
     A.SmallestMaxSize(),
     A.Transpose(),
-    A.VerticalFlip()
+    A.VerticalFlip(),
+    OneOf([A.RandomBrightnessContrast(), A.FancyPCA(), A.HueSaturationValue()], p=0.7),
 ],
     bbox_params=A.BboxParams(format='coco', label_fields=['category_ids']),
 )
